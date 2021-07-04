@@ -1,18 +1,12 @@
 import matplotlib.pyplot as plt  # 顯示圖片
 import matplotlib.image as mpimg  # 讀取圖片
-import numpy as np
 import random
-import time
 import os
-import sys
 import tkinter as tk
 from tkinter import filedialog
-import tkinter.messagebox
 import shutil
 import glob
-import matplotlib
-from matplotlib.font_manager import FontProperties
-matplotlib.font_manager._rebuild()
+
 
 pathdir = os.path.abspath('.')  # get絕對路徑
 path_p = 'pictrue'
@@ -25,16 +19,16 @@ window.title('成大如廁指南')
 
 # Label
 
-tk.Label(window, text='我是成大如廁指南', font=("標楷體", 24)).grid(row=0, columnspan=3)
-tk.Label(window, text='隨機探索', font=("標楷體")).grid(row=1, column=0)  # command = explore
-tk.Label(window, text='新增資料', font=("標楷體")).grid(row=2, column=0, rowspan=4)
-tk.Label(window, text='請輸入廁所位置: ', font=("標楷體")).grid(row=3, column=1, ipadx=0, ipady=0)
-tk.Label(window, text='請輸入星級： ', font=("標楷體")).grid(row=4, column=1)
-tk.Label(window, text='請輸入有無衛生紙(有或無)： ', font=("標楷體")).grid(row=5, column=1)
-tk.Label(window, text='請輸入廁所簡介： ', font=("標楷體")).grid(row=6, column=1)
-tk.Label(window, text='刪除資料', font=("標楷體")).grid(row=7, column=0)
-tk.Label(window, text="請輸入要刪除檔案的廁所位置: ", font=("標楷體")).grid(row=7, column=1)
-tk.Label(window, text='訊息', font=("標楷體")).grid(row=8, column=0)
+tk.Label(window, text='我是成大如廁指南', font=("Courier New", 24)).grid(row=0, columnspan=3)
+tk.Label(window, text='隨機探索', font=("Calibri")).grid(row=1, column=0)  # command = explore
+tk.Label(window, text='新增資料', font=("Calibri")).grid(row=2, column=0, rowspan=4)
+tk.Label(window, text='請輸入廁所位置: ', font=("Calibri")).grid(row=3, column=1, ipadx=0, ipady=0)
+tk.Label(window, text='請輸入星級： ', font=("Calibri")).grid(row=4, column=1)
+tk.Label(window, text='請輸入有無衛生紙(有或無)： ', font=("Calibri")).grid(row=5, column=1)
+tk.Label(window, text='請輸入廁所簡介： ', font=("Calibri")).grid(row=6, column=1)
+tk.Label(window, text='刪除資料', font=("Calibri")).grid(row=7, column=0)
+tk.Label(window, text="請輸入要刪除檔案的廁所位置: ", font=("Calibri")).grid(row=7, column=1)
+tk.Label(window, text='訊息', font=("Calibri")).grid(row=8, column=0)
 
 # Entry
 
@@ -50,14 +44,16 @@ e5 = tk.Entry(window)
 e5.grid(row=7, column=2)
 
 # Text
-t = tk.Text(window, width=30, font=("標楷體"))
+t = tk.Text(window, width=30, font=("Calibri"))
 t.grid(row=8, column=1)
 
 # function
 
+
 def del_text():
     t.delete(1.0, tk.END)
     tk.messagebox.showinfo('訊息', "成功清除訊息欄")
+
 
 def count_files():
     files_path = os.path.join(pathdir, path_p)
@@ -66,6 +62,7 @@ def count_files():
     for ext in ('*.jpg', '*.PNG', '*.png', '*.GIF'):
         files_grab.extend(glob.glob(os.path.join(files_path, ext)))
     return files_grab
+
 
 def explore():
     file_list = count_files()
@@ -105,6 +102,7 @@ def explore():
     fp.close()
     # plt.close()
 
+
 def add():
     if(e1.get() == '' or e2.get() == '' or e3.get() == '' or e4.get() == ''):
         t.insert(tk.END, '\n\t請輸入完整資料\n')
@@ -113,7 +111,7 @@ def add():
     t.insert(tk.END, '\n\t請上傳圖片\n')
     tk.messagebox.showinfo(title='訊息', message='請上傳圖片')
     fpath = filedialog.askopenfilename(defaultextension='.jpg',
-    filetypes=[('All files', '*.*'),('PNG pictures', '*.png'), ('JPEG pictures', '*.jpg')])  # 開啟檔案的視窗
+                                       filetypes=[('All files', '*.*'), ('PNG pictures', '*.png'), ('JPEG pictures', '*.jpg')])  # 開啟檔案的視窗
     temp1 = fpath
     if(temp1 == ""):  # if沒上傳檔案
         t.insert(tk.END, "\n\t上傳取消\n")
@@ -137,6 +135,7 @@ def add():
         file.write("有無衛生紙:\n" + e3.get() + "\n\n")
         file.write("廁所簡介:\n" + e4.get() + "\n\n")
         file.close()
+
 
 def delete():
     flag = True
@@ -167,9 +166,9 @@ def delete():
 
 # button
 
-button1 = tk.Button(window, text ='探索', command = explore, width = 30).grid(row = 1, column = 1, columnspan = 3)
-button2 = tk.Button(window, text='新增', command=add, height = 8).grid(row=3, column=3, rowspan=4)
+button1 = tk.Button(window, text='探索', command=explore, width=30).grid(row=1, column=1, columnspan=3)
+button2 = tk.Button(window, text='新增', command=add, height=8).grid(row=3, column=3, rowspan=4)
 button3 = tk.Button(window, text='刪除', command=delete).grid(row=7, column=3)
-button4 = tk.Button(window, text='清除訊息', command=del_text, height = 10, width = 15).grid(row=8, column=2)
+button4 = tk.Button(window, text='清除訊息', command=del_text, height=10, width=15).grid(row=8, column=2)
 
 window.mainloop()
